@@ -1,0 +1,12 @@
+# Presenter-only files (not for attendees)
+generate_slides.py
+prompt_injection_workshop_slides.pptx
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# OS
+.DS_Store
