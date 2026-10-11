@@ -89,6 +89,16 @@ Expected:
 
 If you see this — you're done with Lab 0. That was easy.
 
+### Prefer clicking to `curl`?
+
+Open **http://localhost:8010/docs** in your browser. It's a built-in page for sending requests:
+
+1. Click an endpoint (for example `POST /chat`), then **Try it out**.
+2. In the request body, paste the JSON from the lab's `curl` command — the part inside `-d '...'`.
+3. Click **Execute** and read the response below.
+
+The page needs an internet connection to load. `curl` works offline. Lab 4's script and file edits still use the terminal.
+
 ---
 
 ## Lab 1 — Direct Prompt Injection (25 min)
