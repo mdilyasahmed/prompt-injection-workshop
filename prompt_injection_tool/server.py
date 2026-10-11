@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from promptguard import PromptGuard
+from ctf import CHALLENGES, judge
 
 app = FastAPI(title="PromptGuard Demo API", version="1.0.0")
 guard = PromptGuard()
@@ -20,6 +21,11 @@ class ToolCallRequest(BaseModel):
     role: str
     tool_name: str
     args: dict
+
+
+class CtfRequest(BaseModel):
+    challenge: str = Field(..., examples=["c1_extract"])
+    message: str
 
 
 @app.get("/health")
@@ -75,4 +81,25 @@ def tool_call(req: ToolCallRequest) -> dict:
             "status": "simulated_success",
         },
     }
+
+
+@app.get("/ctf/challenges")
+def ctf_challenges() -> dict:
+    return {
+        "challenges": [
+            {
+                "id": c.id,
+                "title": c.title,
+                "difficulty": c.difficulty,
+                "objective": c.objective,
+            }
+            for c in CHALLENGES
+        ]
+    }
+
+
+@app.post("/ctf/submit")
+def ctf_submit(req: CtfRequest) -> dict:
+    decision = guard.inspect_message(req.message)
+    return judge(req.challenge, req.message, decision.allowed, decision.risk_score)
 
